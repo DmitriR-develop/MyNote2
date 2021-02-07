@@ -1,5 +1,6 @@
 package com.dmitri.mynote2.ui;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,10 +8,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dmitri.mynote2.Note;
+import com.dmitri.mynote2.NoteSourceInterface;
 import com.dmitri.mynote2.R;
 
 import java.text.SimpleDateFormat;
@@ -18,15 +22,22 @@ import java.util.Locale;
 
 public class MyAdapterListNote extends RecyclerView.Adapter<MyAdapterListNote.ViewHolder> {
 
-    private Note[] notes;
+    private NoteSourceInterface dataSource;
     private MyClickListener myClickListener;
+    private final Fragment fragment;
+    private int menuPosition;
 
-    public MyAdapterListNote(Note[] notes) {
-        this.notes = notes;
+    public MyAdapterListNote(NoteSourceInterface dataSource, Fragment fragment) {
+        this.dataSource = dataSource;
+        this.fragment = fragment;
     }
 
     public void setOnClickListener(MyClickListener itemClickListener) {
         myClickListener = itemClickListener;
+    }
+
+    public int getMenuPosition() {
+        return menuPosition;
     }
 
     @NonNull
@@ -38,14 +49,14 @@ public class MyAdapterListNote extends RecyclerView.Adapter<MyAdapterListNote.Vi
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapterListNote.ViewHolder viewHolder, int i) {
-        viewHolder.getTitleTextView().setText(notes[i].getTitle());
+        viewHolder.getTitleTextView().setText(dataSource.getNote(i).getTitle());
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy", Locale.getDefault());
-        viewHolder.getDateTextView().setText(formatter.format(notes[i].getDate().getTime()));
+        viewHolder.getDateTextView().setText(dataSource.getNote(i).getDate());
     }
 
     @Override
     public int getItemCount() {
-        return notes.length;
+        return dataSource.size();
     }
 
     public interface MyClickListener {
@@ -67,8 +78,27 @@ public class MyAdapterListNote extends RecyclerView.Adapter<MyAdapterListNote.Vi
             dateTextView = itemView.findViewById(R.id.date_item);
             itemLayout.setOnClickListener(v -> {
                 int i = getAdapterPosition();
-                myClickListener.onItemClick(i, notes[i]);
+                myClickListener.onItemClick(i, dataSource.getNote(i));
             });
+            itemLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public boolean onLongClick(View v) {
+                    menuPosition = getLayoutPosition();
+                    itemView.showContextMenu(550, 10);
+                    return true;
+                }
+            });
+        }
+
+        public void registerContextMenu(@NonNull View itemView) {
+            if (fragment != null) {
+                itemView.setOnLongClickListener(v -> {
+                    menuPosition = getLayoutPosition();
+                    return false;
+                });
+                fragment.registerForContextMenu(itemView);
+            }
         }
 
         public LinearLayout getItemLayout() {

@@ -18,4 +18,7 @@
     <string name="sixth_content">Содержание шестой заметки</string>
     <string name="seventh_title">Седьмая заметка</string>
     <string name="seventh_content">Содержание седьмой заметки</string>
+    <string name="clear">Очистить</string>
+    <string name="add">Добавить</string>
+    <string name="delete_one">Удалить</string>
 </resources>

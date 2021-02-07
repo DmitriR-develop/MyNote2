@@ -9,34 +9,52 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.dmitri.mynote2.observe.Publisher;
 import com.dmitri.mynote2.ui.ListNoteFragment;
+
+import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private boolean isLandscape;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private Fragment fragment = getVisibleFragment(fragmentManager);
+    private Navigation navigation;
+    private Publisher publisher = new Publisher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        navigation = new Navigation(getSupportFragmentManager());
         initToolbar();
-        addFragment();
+        getNavigation().addFragment(ListNoteFragment.newInstance(), false);
     }
 
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void addFragment() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ListNoteFragment listNoteFragment = new ListNoteFragment();
-        fragmentTransaction.replace(R.id.list_note_fragment, listNoteFragment);
-        fragmentTransaction.commit();
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public Navigation getNavigation() {
+        return navigation;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 
     @Override
@@ -73,5 +91,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    private Fragment getVisibleFragment(FragmentManager fragmentManager) {
+        List<Fragment> fragments = fragmentManager.getFragments();
+        int countFragments = fragments.size();
+        for (int i = countFragments - 1; i >= 0; i--) {
+            Fragment fragment = fragments.get(i);
+            if (fragment.isVisible()) {
+                return fragment;
+            }
+        }
+        return null;
     }
 }

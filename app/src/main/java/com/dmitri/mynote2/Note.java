@@ -9,19 +9,18 @@ public class Note implements Parcelable {
 
     private String title;
     private String content;
-    private Calendar date;
+    private String date;
 
-    public Note(String title, String content, Calendar date) {
+    public Note(String title, String content, String date) {
         this.title = title;
         this.content = content;
         this.date = date;
     }
 
-
     protected Note(Parcel in) {
         title = in.readString();
         content = in.readString();
-        date = (Calendar) in.readSerializable();
+        date = in.readString();
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -56,7 +55,19 @@ public class Note implements Parcelable {
         return content;
     }
 
-    public Calendar getDate() {
+    public String getDate() {
         return date;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }
