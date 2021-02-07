@@ -20,7 +20,7 @@
             android:id="@+id/text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="@dimen/padding_item"
             android:textSize="@dimen/size_item_list"
             tools:text="text" />
 
@@ -28,7 +28,7 @@
             android:id="@+id/date_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:padding="@dimen/padding_item2"
             android:text="text" />
 
     </LinearLayout>

@@ -3,4 +3,6 @@
     <dimen name="size_item_list">30sp</dimen>
     <dimen name="corner_radius">15dp</dimen>
     <dimen name="elevation">5dp</dimen>
+    <dimen name="padding_item">10dp</dimen>
+    <dimen name="padding_item2">5dp</dimen>
 </resources>

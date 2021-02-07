@@ -9,11 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.dmitri.mynote2.ui.ListNoteFragment;
+
 public class MainActivity extends AppCompatActivity {
+
+    private boolean isLandscape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
