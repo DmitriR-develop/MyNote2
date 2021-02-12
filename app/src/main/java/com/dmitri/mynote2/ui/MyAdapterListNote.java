@@ -4,6 +4,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,14 +23,22 @@ import java.util.Locale;
 
 public class MyAdapterListNote extends RecyclerView.Adapter<MyAdapterListNote.ViewHolder> {
 
+    private static final int X_C = 550;
+    private static final int Y_C = 10;
     private NoteSourceInterface dataSource;
     private MyClickListener myClickListener;
     private final Fragment fragment;
+    private NoteSourceInterface noteSource;
+    private AdapterView.OnItemClickListener itemClickListener;
     private int menuPosition;
 
-    public MyAdapterListNote(NoteSourceInterface dataSource, Fragment fragment) {
-        this.dataSource = dataSource;
+    public MyAdapterListNote(Fragment fragment) {
         this.fragment = fragment;
+    }
+
+    public void setDataSource(NoteSourceInterface noteSource) {
+        this.noteSource = noteSource;
+        notifyDataSetChanged();
     }
 
     public void setOnClickListener(MyClickListener itemClickListener) {
@@ -85,7 +94,7 @@ public class MyAdapterListNote extends RecyclerView.Adapter<MyAdapterListNote.Vi
                 @Override
                 public boolean onLongClick(View v) {
                     menuPosition = getLayoutPosition();
-                    itemView.showContextMenu(550, 10);
+                    itemView.showContextMenu(X_C, Y_C);
                     return true;
                 }
             });

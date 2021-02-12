@@ -1,6 +1,7 @@
 package com.dmitri.mynote2;
 
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -19,6 +20,29 @@ public class NoteSourceImpl implements NoteSourceInterface, Parcelable {
     public NoteSourceImpl(Resources resources) {
         this.resources = resources;
         notes = new ArrayList<>();
+    }
+
+    public NoteSourceImpl init(NoteSourceResponse noteSourceResponse) {
+        String[] titles = resources.getStringArray(R.array.titles);
+        String[] description = resources.getStringArray(R.array.description);
+        int[] pictures = getImageArray();
+        for (int i = 0; i < description.length; i++) {
+            notes.add(new Note(titles[i], description[i], getDate()));
+        }
+        if (noteSourceResponse != null) {
+            noteSourceResponse.initialized(this);
+        }
+        return this;
+    }
+
+    private int[] getImageArray() {
+        TypedArray pictures = resources.obtainTypedArray(R.array.pictures);
+        int length = pictures.length();
+        int[] answer = new int[length];
+        for (int i = 0; i < length; i++) {
+            answer[i] = pictures.getResourceId(i, 0);
+        }
+        return answer;
     }
 
     protected NoteSourceImpl(Parcel in) {

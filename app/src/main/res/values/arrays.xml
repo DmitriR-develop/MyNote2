@@ -7,4 +7,20 @@
         <item>Заметка_4</item>
         <item>Заметка_5</item>
     </string-array>
+
+    <string-array name="description">
+        <item>Описание заметки 1</item>
+        <item>Описание заметки 2</item>
+        <item>Описание заметки 3</item>
+        <item>Описание заметки 4</item>
+        <item>Описание заметки 5</item>
+    </string-array>
+
+    <array name="pictures">
+        <item>@drawable/im1</item>
+        <item>@drawable/im2</item>
+        <item>@drawable/im3</item>
+        <item>@drawable/im4</item>
+        <item>@drawable/im5</item>
+    </array>
 </resources>

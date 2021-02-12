@@ -2,6 +2,8 @@ package com.dmitri.mynote2;
 
 public interface NoteSourceInterface {
 
+    NoteSourceInterface init(NoteSourceResponse noteSourceResponse);
+
     Note getNote(int position);
 
     int size();

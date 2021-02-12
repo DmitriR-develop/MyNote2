@@ -7,6 +7,7 @@ import java.util.Calendar;
 
 public class Note implements Parcelable {
 
+    private String id;
     private String title;
     private String content;
     private String date;
@@ -69,5 +70,13 @@ public class Note implements Parcelable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
