@@ -18,12 +18,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dmitri.mynote2.DeleteDialogFragment;
 import com.dmitri.mynote2.MainActivity;
 import com.dmitri.mynote2.Navigation;
 import com.dmitri.mynote2.Note;
 import com.dmitri.mynote2.NoteSourceFirebaseImpl;
 import com.dmitri.mynote2.NoteSourceInterface;
 import com.dmitri.mynote2.NoteSourceResponse;
+import com.dmitri.mynote2.OnDeleteDialogListener;
 import com.dmitri.mynote2.R;
 import com.dmitri.mynote2.observe.Observer;
 import com.dmitri.mynote2.observe.Publisher;
@@ -142,7 +144,28 @@ public class ListNoteFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        return onItemSelected(item.getItemId()) || super.onContextItemSelected(item);
+        int position = adapter.getMenuPosition();
+        if (item.getItemId() == R.id.delete_menu) {
+            DeleteDialogFragment deleteDlgFragment = new DeleteDialogFragment();
+            deleteDlgFragment.setCancelable(false);
+            deleteDlgFragment.setOnDialogListener(new OnDeleteDialogListener() {
+                @Override
+                public void onDelete() {
+                    data.deleteNote(position);
+                    adapter.notifyItemRemoved(position);
+                    deleteDlgFragment.dismiss();
+                }
+
+                @Override
+                public void onCancelDelete() {
+                    deleteDlgFragment.dismiss();
+                }
+            });
+            deleteDlgFragment.show(requireActivity().getSupportFragmentManager(),
+                    "DeleteFragmentTag");
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 
     private boolean onItemSelected(int menuItemId) {

@@ -5,4 +5,11 @@
     <dimen name="elevation">5dp</dimen>
     <dimen name="padding_item">10dp</dimen>
     <dimen name="padding_item2">5dp</dimen>
+    <dimen name="no_button_margin_start">70dp</dimen>
+    <dimen name="confirm_delete_button_margin_start">90dp</dimen>
+    <dimen name="delete_dialog_textsize">22sp</dimen>
+    <dimen name="delete_dialog_title_margin">20dp</dimen>
+    <dimen name="dialog_button_margin_start">30dp</dimen>
+    <dimen name="dialog_button_margin_end">30dp</dimen>
+    <dimen name="delete_dialog_button_margin_top">10dp</dimen>
 </resources>

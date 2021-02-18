@@ -21,4 +21,7 @@
     <string name="clear">Очистить</string>
     <string name="add">Добавить</string>
     <string name="delete_one">Удалить</string>
+    <string name="delete_note_dialog_title">Вы действительно хотите удалить эту заметку?</string>
+    <string name="delete_note_dialog_button_no">НЕТ</string>
+    <string name="confirm_delete_button">УДАЛИТЬ</string>
 </resources>
